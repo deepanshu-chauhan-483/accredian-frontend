@@ -16,7 +16,7 @@ export default function ReferralModal({ onClose }) {
       return;
     }
     try {
-      await axios.post("http://localhost:5000/api/referral", formData);
+      await axios.post("https://accredian-backend-dvof.onrender.com/api/referral", formData);
       alert("Referral submitted successfully!");
       onClose();
     } catch (err) {
