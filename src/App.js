@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+// App.jsx - Main application component
+import React from 'react';
+import { motion } from 'framer-motion';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import HowToRefer from './components/HowToRefer';
+import ReferralBenefits from './components/ReferralBenefits';
+import FAQ from './components/FAQ';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="font-sans">
+      <Header />
+      <main>
+        <Hero />
+        <HowToRefer />
+        <ReferralBenefits />
+        <FAQ />
+      </main>
+      <Footer />
     </div>
   );
 }
