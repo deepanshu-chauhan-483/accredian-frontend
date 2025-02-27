@@ -42,45 +42,75 @@ const ReferralBenefits = () => {
     { name: 'Business Analytics Certification', category: 'BUSINESS ANALYTICS', referrerBonus: '₹ 7,000', refereeBonus: '₹ 9,000' },
   ];
 
+  // Reset showMore when category changes
+  useEffect(() => {
+    setShowMore(false);
+  }, [activeCategory]);
+
   const filteredPrograms = activeCategory === 'ALL PROGRAMS' ? programs : programs.filter(program => program.category === activeCategory);
   const displayedPrograms = showMore ? filteredPrograms : filteredPrograms.slice(0, 5);
-  
-  
 
   return (
-    <section id='benefits' className="py-16 bg-white" ref={ref}>
-      <div className="container mx-auto px-4 ">
+    <motion.section
+      id='benefits'
+      className="py-16 bg-white"
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={controls}
+      variants={{
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+      }}
+    >
+      <div className="container mx-auto px-4">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          animate={controls}
+          variants={{
+            visible: { opacity: 1, y: 0, transition: { delay: 0.2, duration: 0.5 } },
+          }}
           className="text-3xl font-bold text-center mb-8"
         >
           What Are The <span className="text-blue-500">Referral Benefits</span>?
         </motion.h2>
 
-        <div className="flex flex-col lg:flex-row gap-6 ">
+        <motion.div
+          className="flex flex-col lg:flex-row gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={controls}
+          variants={{
+            visible: { opacity: 1, y: 0, transition: { delay: 0.4, duration: 0.5 } },
+          }}
+        >
           {/* Categories Sidebar */}
           <div className="lg:w-1/4 rounded-2xl">
             <div className="bg-white rounded-2xl shadow-md overflow-hidden">
               {categories.map((category, index) => (
-                <button
+                <motion.button
                   key={index}
                   onClick={() => setActiveCategory(category)}
                   className={`w-full px-4 py-3 text-left flex items-center justify-between transition-all duration-200 rounded-lg
                     ${activeCategory === category ? 'bg-blue-500 text-white font-semibold' : 'hover:bg-gray-100'}`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   <span>{category}</span>
-                  {<IoIosArrowForward className={`text-black ${activeCategory === category ? 'text-white' : 'text-white'}`} />}
-                </button>
+                  <IoIosArrowForward className={`text-black ${activeCategory === category ? 'text-white' : 'text-white'}`} />
+                </motion.button>
               ))}
             </div>
           </div>
 
           {/* Programs Table */}
           <div className="lg:w-3/4">
-            <div className="bg-whiteshadow-md overflow-hidden border rounded-xl">
-              <div className="grid grid-cols-3 bg-blue-100 rounded-lg ">
+            <motion.div
+              className="bg-white shadow-md overflow-hidden border rounded-xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={controls}
+              variants={{
+                visible: { opacity: 1, y: 0, transition: { delay: 0.6, duration: 0.5 } },
+              }}
+            >
+              <div className="grid grid-cols-3 bg-blue-100 rounded-lg">
                 <div className="px-4 py-3 font-medium">Programs</div>
                 <div className="px-4 py-3 font-medium text-center">Referrer Bonus</div>
                 <div className="px-4 py-3 font-medium text-center">Referee Bonus</div>
@@ -88,26 +118,41 @@ const ReferralBenefits = () => {
 
               {displayedPrograms.length > 0 ? (
                 displayedPrograms.map((program, index) => (
-                  <div key={index} className="grid grid-cols-3 border-t ">
-                    <div className="px-4 py-4 flex items-start ">
+                  <motion.div
+                    key={index}
+                    className="grid grid-cols-3 border-t"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={controls}
+                    variants={{
+                      visible: { opacity: 1, y: 0, transition: { delay: 0.8 + index * 0.1, duration: 0.5 } },
+                    }}
+                  >
+                    <div className="px-4 py-4 flex items-start">
                       <span className="text-blue-500 mr-2"><HiAcademicCap className='mr-2 text-blue-500' /></span>
                       <span>{program.name}</span>
                     </div>
                     <div className="px-4 py-4 text-center">{program.referrerBonus}</div>
                     <div className="px-4 py-4 text-center">{program.refereeBonus}</div>
-                  </div>
+                  </motion.div>
                 ))
               ) : (
                 <div className="text-center py-6 text-gray-500">No programs available in this category.</div>
               )}
-            </div>
+            </motion.div>
 
-            {/* Show More / Show Less Button with Dropdown Icon */}
+            {/* Show More / Show Less Button */}
             {filteredPrograms.length > 5 && (
-              <div className="flex justify-end text-center mt-4 ">
+              <motion.div
+                className="flex justify-end text-center mt-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={controls}
+                variants={{
+                  visible: { opacity: 1, y: 0, transition: { delay: 1.2, duration: 0.5 } },
+                }}
+              >
                 <button
                   onClick={() => setShowMore(!showMore)}
-                  className="text-gray-600 hover:text-blue-500 flex items-center justify-center gap-2 border rounded-xl  p-1"
+                  className="text-gray-600 hover:text-blue-500 flex items-center justify-center gap-2 border rounded-xl p-1"
                 >
                   Show {showMore ? 'Less' : 'More'}
                   <motion.svg
@@ -122,25 +167,33 @@ const ReferralBenefits = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </motion.svg>
                 </button>
-              </div>
+              </motion.div>
             )}
           </div>
-        </div>
-        {/* Refer Now Button */}
-<div className="flex justify-center mt-6">
-  <motion.button 
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    onClick={() => setIsModalOpen(true)}
-    className="bg-blue-500 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-600 transition-colors"
-  >
-    Refer Now
-  </motion.button>
-</div>
+        </motion.div>
 
+        {/* Refer Now Button */}
+        <motion.div
+          className="flex justify-center mt-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={controls}
+          variants={{
+            visible: { opacity: 1, y: 0, transition: { delay: 1.4, duration: 0.5 } },
+          }}
+        >
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsModalOpen(true)}
+            className="bg-blue-500 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-600 transition-colors"
+          >
+            Refer Now
+          </motion.button>
+        </motion.div>
       </div>
-       {isModalOpen && <ReferralModal onClose={() => setIsModalOpen(false)} />}
-    </section>
+
+      {isModalOpen && <ReferralModal onClose={() => setIsModalOpen(false)} />}
+    </motion.section>
   );
 };
 
